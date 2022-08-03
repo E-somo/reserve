@@ -1,0 +1,161 @@
+<style>
+h1 {text-align: center;}
+p {text-align: center;}
+a {text-align: center;}
+</style>
+
+
+<h1 style="background-color: green;">                                     Hello ! <br>  From T-Smart solution Ltd! <br> Biology Text Book Download pages </h1>
+<p> <br> Welcome to the E-Somo V1 download page this is an artificial intelligence-enabled application that helps the learner 
+   to smartly  learn effortlessly. <br> By using this interactive app you will get a chance of doing many national examinations by simulation,
+   with direct feedback which will help the learner to quickly gain the required knowledge and skills.  <br>   <br> 
+   Below are link for downloading the printable TextBook (Biology past examinations Questions and answers) for Offline learning,<br> 
+  N.B   You will get a link after successful login .<br>
+        </p>
+
+
+
+
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8">
+<title>JJS</title> 
+</head> 
+<body> <input type="text" placeholder="Enter name here" Id="st">  <br> <br>
+ <input type="text" placeholder="Enter name here" Id="st2"> 
+
+<script> 
+
+
+function cond() { 
+var a=document.getElementById("st").value; 
+var av=document.getElementById("st2").value; 
+
+let sum = Number(a) + Number(new Date().getFullYear()) + Number(a);
+
+if(a=="112018") { 
+
+ var b = document.createElement('a');
+      var linkText = document.createTextNode("ViP master link");
+      b.appendChild(linkText);
+      b.title = "my google";
+     b.href = "https://e-somo.github.io/Welcome-Page/"; 
+      document.body.appendChild(b);
+
+
+
+} 
+
+else if(av==sum ){ 
+
+
+
+  var a = document.createElement('a');
+      var linkText = document.createTextNode("Good client");
+      a.appendChild(linkText);
+      a.title = "my good ";
+      a.href = "https://e-somo.github.io/Welcome-Page/";
+      document.body.appendChild(a);
+
+
+} 
+
+
+else{ 
+
+      var a = document.createElement('a');
+     
+     var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+     var day = dateObj.getUTCDate();
+     var year = dateObj.getUTCFullYear();
+     
+     
+     
+      var linkText = document.createTextNode(month);
+      a.appendChild(linkText);
+      a.title = "invalid login ";
+      a.href = "https://ytettet/";
+      document.body.appendChild(linkText);
+   
+  
+
+   
+} }
+
+
+
+</script> 
+<button type="button" onclick="cond()">OK</button> <br><br> <br>
+
+
+</body> 
+</html>  
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+</style>
+</head>
+<body>
+
+
+<button onclick="myFunction()">Reset</button>
+
+<div id="snackbar"> Close and Go Back 
+
+<script>
+function myFunction() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+</script>
+
+</body>
+</html>
