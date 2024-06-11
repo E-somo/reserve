@@ -1,161 +1,210 @@
-<style>
-h1 {text-align: center;}
-p {text-align: center;}
-a {text-align: center;}
-</style>
-
-
-<h1 style="background-color: green;">                                     Hello ! <br>  From T-Smart solution Ltd! <br> Biology Text Book Download pages </h1>
-<p> <br> Welcome to the E-Somo V1 download page this is an artificial intelligence-enabled application that helps the learner 
-   to smartly  learn effortlessly. <br> By using this interactive app you will get a chance of doing many national examinations by simulation,
-   with direct feedback which will help the learner to quickly gain the required knowledge and skills.  <br>   <br> 
-   Below are link for downloading the printable TextBook (Biology past examinations Questions and answers) for Offline learning,<br> 
-  N.B   You will get a link after successful login .<br>
-        </p>
-
-
-
-
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-<meta charset="UTF-8">
-<title>JJS</title> 
-</head> 
-<body> <input type="text" placeholder="Enter name here" Id="st">  <br> <br>
- <input type="text" placeholder="Enter name here" Id="st2"> 
-
-<script> 
-
-
-function cond() { 
-var a=document.getElementById("st").value; 
-var av=document.getElementById("st2").value; 
-
-let sum = Number(a) + Number(new Date().getFullYear()) + Number(a);
-
-if(a=="112018") { 
-
- var b = document.createElement('a');
-      var linkText = document.createTextNode("ViP master link");
-      b.appendChild(linkText);
-      b.title = "my google";
-     b.href = "https://e-somo.github.io/Welcome-Page/"; 
-      document.body.appendChild(b);
-
-
-
-} 
-
-else if(av==sum ){ 
-
-
-
-  var a = document.createElement('a');
-      var linkText = document.createTextNode("Good client");
-      a.appendChild(linkText);
-      a.title = "my good ";
-      a.href = "https://e-somo.github.io/Welcome-Page/";
-      document.body.appendChild(a);
-
-
-} 
-
-
-else{ 
-
-      var a = document.createElement('a');
-     
-     var dateObj = new Date();
-    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-     var day = dateObj.getUTCDate();
-     var year = dateObj.getUTCFullYear();
-     
-     
-     
-      var linkText = document.createTextNode(month);
-      a.appendChild(linkText);
-      a.title = "invalid login ";
-      a.href = "https://ytettet/";
-      document.body.appendChild(linkText);
-   
-  
-
-   
-} }
-
-
-
-</script> 
-<button type="button" onclick="cond()">OK</button> <br><br> <br>
-
-
-</body> 
-</html>  
-
-
-<!DOCTYPE html>
-<html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-#snackbar {
-  visibility: hidden;
-  min-width: 250px;
-  margin-left: -125px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 2px;
-  padding: 16px;
-  position: fixed;
-  z-index: 1;
-  left: 50%;
-  bottom: 30px;
-  font-size: 17px;
-}
-
-#snackbar.show {
-  visibility: visible;
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-@-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;} 
-  to {bottom: 30px; opacity: 1;}
-}
-
-@keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
-}
-
-@-webkit-keyframes fadeout {
-  from {bottom: 30px; opacity: 1;} 
-  to {bottom: 0; opacity: 0;}
-}
-
-@keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
-}
-</style>
+    <title>Interactive Quiz</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        #examDropdown {
+            display: none; /* Initially hide the select element */
+        }
+    </style>
 </head>
 <body>
+<body>  
+
+    
+    <h1>Select an Exam</h1>
+    <select id="examDropdown" onchange="updateCollsel()">
+    </select>
+    <p id="collselValue" hidden >collsel = 0</p>
+</body>
+    <div id="quiz-container"></div>
+    
+    
+    
+    
+    <script type="text/javascript"> 
+    
+        
+    async function showInput() {
+            const { value: input } = await Swal.fire({
+                title: 'Enter a number',
+                input: 'text',
+                inputLabel: 'Number',
+                inputPlaceholder: 'Enter AtM',
+                allowOutsideClick:false,
+                showCancelButton: true
+            });
+
+            if (input === '6702') {
+                document.getElementById('examDropdown').style.display = 'block';
+            }else{
+
+                alert(" please this  product is  of T-smart solution ")
+            }
+        }
+
+        // Call the function to show the Swal.fire input dialog
+        showInput();
 
 
-<button onclick="myFunction()">Reset</button>
 
-<div id="snackbar"> Close and Go Back 
 
-<script>
-function myFunction() {
-  var x = document.getElementById("snackbar");
-  x.className = "show";
-  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-}
-</script>
+   
+      var collsel=0;
+      function populateDropdown() {
+            var examDropdown = document.getElementById("examDropdown");
+              
+            for (var i = 0; i <= 40; i++) {
+                var option = document.createElement("option");
+                option.value = (i - 1) * 20;
+                option.text = "Exam " + i;
+                if(i===0)
+                { 
+               
+                option.text="select the exam";
+                examDropdown.add(option)} else{
+                 examDropdown.add(option);
+                }
+               
+            }
+        }
 
+        function updateCollsel() {
+            var examDropdown = document.getElementById("examDropdown");
+            var collsel2 = examDropdown.value;
+            document.getElementById("collselValue").innerText = "collsel = " + collsel2;
+            
+            alert("loaded"+collsel2)
+            collsel=(collsel2*1)+0;
+             loaderthem()
+        }
+
+        window.onload = function() {
+            populateDropdown();
+        };
+      
+     
+    
+     
+    function loaderthem() {
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(init);
+
+        function init() {
+            var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/133wNh6NkNMOkGIv33y2dkajMgdAhvF6a0wVw46yAS2I/gviz/tq?gid=0');
+            query.send(handleQueryResponse);
+        }
+
+        function handleQueryResponse(response) {
+            if (response.isError()) {
+                alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+                return;
+            }
+
+            var data = response.getDataTable();
+            var questions = [];
+            for (var i =collsel ; i < data.getNumberOfRows(); i++) {
+                var question = {
+                    text: data.getValue(i, 1),  // Column B
+                    options: [
+                        data.getValue(i, 3),  // Column D
+                        data.getValue(i, 4),  // Column E
+                        data.getValue(i, 5),  // Column F
+                        data.getValue(i, 6),  // Column G
+                        data.getValue(i, 7)   // Column H
+                    ],
+                    answer: data.getValue(i, 8) // Column I
+                };
+                questions.push(question);
+            }
+
+            startQuiz(questions);
+        }
+
+        function startQuiz(questions) {
+            let score = 0;
+            let questionIndex = 0;
+            let userAnswers = [];
+
+            function askQuestion() {
+                if (questionIndex >= 20 || questionIndex >= questions.length) {
+                    showResults();
+                    return;
+                }
+
+                let question = questions[questionIndex];
+                Swal.fire({
+                    title: `Question ${questionIndex + 1}`,
+                    allowOutsideClick:false,
+                    html: `
+                        <div>${question.text}</div>
+                        <div>
+                            <input type="radio" id="option1" name="quiz" value="1">
+                            <label for="option1">${question.options[0]}</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="option2" name="quiz" value="2">
+                            <label for="option2">${question.options[1]}</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="option3" name="quiz" value="3">
+                            <label for="option3">${question.options[2]}</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="option4" name="quiz" value="4">
+                            <label for="option4">${question.options[3]}</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="option5" name="quiz" value="5">
+                            <label for="option5">${question.options[4]}</label>
+                        </div>
+                    `,
+                    preConfirm: () => {
+                        const selectedOption = document.querySelector('input[name="quiz"]:checked');
+                        if (!selectedOption) {
+                            Swal.showValidationMessage('You need to choose an option!');
+                            return false;
+                        }
+                        return selectedOption.value;
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let userAnswer = parseInt(result.value);
+                        userAnswers.push({
+                            question: question.text,
+                            selected: userAnswer,
+                            correct: question.answer
+                        });
+                        if (userAnswer == question.answer) {
+                            score++;
+                        }
+                        questionIndex++;
+                        askQuestion();
+                    }
+                });
+            }
+
+            function showResults() {
+                let resultHtml = `<h3>Quiz Finished! Your score is ${score} out of ${Math.min(20, questions.length)}</h3><ol>`;
+                userAnswers.forEach((answer, index) => {
+                    resultHtml += `<li><strong>Question ${index + 1}:</strong> ${answer.question}<br> 
+                                   <strong>Your Answer:</strong> ${answer.selected}<br> 
+                                   <strong>Correct Answer:</strong> ${answer.correct}</li><br>`;
+                });
+                resultHtml += `</ol>`;
+
+                Swal.fire({
+                    title: 'Results',
+                    allowOutsideClick:false,
+                    html: resultHtml,
+                    width: '60%',
+                    allowOutsideClick: false
+                });
+            }
+
+            askQuestion();
+        }
+        }
+    </script>
 </body>
 </html>
