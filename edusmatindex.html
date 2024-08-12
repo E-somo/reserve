@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome to Edusmart AI powered system</title>
+
+  <!-- Firebase scripts -->
+  <script defer src="/__/firebase/10.12.5/firebase-app-compat.js"></script>
+  <script defer src="/__/firebase/10.12.5/firebase-auth-compat.js"></script>
+  <script defer src="/__/firebase/10.12.5/firebase-database-compat.js"></script>
+  <script defer src="/__/firebase/10.12.5/firebase-firestore-compat.js"></script>
+  <script defer src="/__/firebase/10.12.5/firebase-functions-compat.js"></script>
+  <script defer src="/__/firebase/10.12.5/firebase-messaging-compat.js"></script>
+  <script defer src="/__/firebase/10.12.5/firebase-storage-compat.js"></script>
+  <script defer src="/__/firebase/10.12.5/firebase-analytics-compat.js"></script>
+  <script defer src="/__/firebase/10.12.5/firebase-remote-config-compat.js"></script>
+  <script defer src="/__/firebase/10.12.5/firebase-performance-compat.js"></script>
+  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+  <!-- External scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.min.js"></script>
+  <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 1.5em 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      background-color: white;
+      padding: 1em 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+
+    .nav-list, .language-list {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-list {
+      flex: 1;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-list li, .language-list li {
+      margin-right: 20px;
+    }
+
+    .nav-list li:last-child, .language-list li:last-child {
+      margin-right: 0;
+    }
+
+    .nav-list a {
+      text-decoration: none;
+      color: #333;
+      font-size: 16px;
+      padding: 0.5em 1em;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .nav-list a:hover {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .languages {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .languages .iconify {
+      margin-right: 5px;
+    }
+
+    .languages:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2em auto;
+      padding: 0 1em;
+    }
+
+    .user-section {
+      display: none;
+      background-color: white;
+      padding: 2em;
+      margin-bottom: 2em;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 0.5em;
+      display: flex;
+      align-items: center;
+    }
+
+    .question-mark {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      line-height: 20px;
+      margin-left: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .buttons {
+      margin-top: 1em;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .buttons button {
+      flex: 1;
+      padding: 0.75em 1em;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .buttons button:hover {
+      background-color: #45a049;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1em;
+      background-color: #4CAF50;
+      color: white;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+
+    .swal2-popup .container {
+      background-color: transparent;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .swal2-popup input[type="text"] {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .swal2-popup button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .swal2-popup button:hover {
+      background-color: #45a049;
+    }
+
+    @media (max-width: 600px) {
+      .nav-list {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .language-list {
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    } 
+
+
+
+    #snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 30px; /* Changed from bottom: 30px to top: 30px */
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {top: 0; opacity: 0;} /* Changed from bottom: 0 to top: 0 */
+  to {top: 30px; opacity: 1;} /* Changed from bottom: 30px to top: 30px */
+}
+
+@keyframes fadein {
+  from {top: 0; opacity: 0;} /* Changed from bottom: 0 to top: 0 */
+  to {top: 30px; opacity: 1;} /* Changed from bottom: 30px to top: 30px */
+}
+
+@-webkit-keyframes fadeout {
+  from {top: 30px; opacity: 1;} /* Changed from bottom: 30px to top: 30px */
+  to {top: 0; opacity: 0;} /* Changed from bottom: 0 to top: 0 */
+}
+
+@keyframes fadeout {
+  from {top: 30px; opacity: 1;} /* Changed from bottom: 30px to top: 30px */
+  to {top: 0; opacity: 0;} /* Changed from bottom: 0 to top: 0 */
+}
+
+
+
+.custom-alert {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000; /* Higher z-index than SweetAlert */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .custom-alert-content {
+            position: relative;
+            margin: 15% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            background-color: white;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-alert-content p {
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .custom-alert-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .custom-alert-close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Automated AI-Powered Management System for Students and Staff</h1>
+  </header>
+  <nav>
+    <div class="nav-container">
+      <ul class="nav-list">
+        <li><a href="#" id="parent">Parent</a></li>
+        <li><a href="#" id="teacher">Teacher</a></li>
+        <li><a href="#" id="admin">School Admin</a></li>
+        <li><a href="#" id="nonAcademicStaff">Non Academic Staff Management</a></li>
+        <li><a href="#" id="nonAcademicStaffabout">About</a></li>
+      </ul>
+      <ul class="language-list">
+        <li onclick="toggleLang('KINYA')" class="languages">
+          <span class="iconify" data-icon="emojione-v1:flag-for-rwanda" data-width="15" data-height="24"></span>KINY
+        </li>
+        <li onclick="toggleLang('ENG')" class="languages">
+          <span class="iconify" data-icon="emojione-v1:flag-for-united-kingdom" data-width="15" data-height="24"></span>ENG
+        </li>
+        <li onclick="toggleLang('FRE')" class="languages">
+          <span class="iconify" data-icon="twemoji:flag-for-flag-france" data-width="15" data-height="24"></span>FR
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <main>
+    <section id="parentSection" class="user-section">
+      <h2>Parent Portal <span class="question-mark" id="parentQuestionMark">?</span></h2>
+      <div id="parentData"></div>
+      <div class="buttons">
+        <button onclick="openparenthModal(1)">My Child <br> Confirmed Absences</button>
+        <button onclick="openparenthModal(2)">My Child <br> Attendance Records</button>
+        <button onclick="openparenthModal(3)">My Child <br> Class Time Table</button>
+      </div>
+    </section>
+    <section id="teacherSection" class="user-section">
+      <h2>Teacher Portal <span class="question-mark" id="teacherQuestionMark">?</span></h2>
+      <div id="teacherData"></div>
+      <div class="buttons">
+        <button onclick="openSearchModal(1)">Class Attendance</button>
+        <button onclick="openSearchModal(2)">My Attendance</button>
+        <button onclick="openSearchModal(3)">Time Table</button>
+      </div>
+    </section>
+    <section id="adminSection" class="user-section">
+      <h2>School Admin Portal <span class="question-mark" id="adminQuestionMark">?</span></h2>
+      <div id="adminData"></div>
+      <div class="buttons">
+        <button onclick="findallansent()">All absent <br> students</button>
+        <button onclick="findspecific()">Search <br> students  absence</button>
+        <button onclick="findstaff()">Search staff <br> absence</button>
+        <button onclick="findtimetable()">View Time tables</button>
+        <button onclick="findtimetable()">Whatch what is happening <br> in class now</button>
+      </div>
+    </section>
+    <section id="nonAcademicStaffSection" class="user-section">
+      <h2>Non Academic Staff Portal <span class="question-mark" id="nonAcademicStaffQuestionMark">?</span></h2>
+      <div id="nonAcademicStaffData"></div>
+      <div class="buttons">
+        <button onclick="alert('All non academic staff absences')">All non academic <br>staff absences</button>
+        <button onclick="alert('Search non academic staff absence')">Search non academic <br> staff absence</button>
+        <button onclick="alert('My attendance records')">My attendance Records <br> (Each Employee) </button>
+        <button onclick="findtimetable()">Whatch what is happening <br> At job Right now</button>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p id="footer-text">© 2024 Edusmart AI Powered System. All rights reserved.</p>
+  </footer> 
+  <div id="snackbar"></div> 
+
+
+  <div id="customAlert" class="custom-alert">
+    <div class="custom-alert-content">
+        <span class="custom-alert-close" onclick="closeCustomAlert()">&times;</span>
+        <p>Data Privacy Notice</p>
+        <small>Feel confident in sharing your phone number with us. Rest assured, your data will be handled with the utmost care and will never be shared with anyone else. Your phone number will only be used for login purposes and subscription management within the system. As demonstrated by the certificate below, we are authorized to process your data with full privacy. Thank you for your cooperation <br> <br> <i> 
+          Soyez assuré de pouvoir partager votre numéro de téléphone avec nous en toute confiance. Vos données seront traitées avec le plus grand soin et ne seront jamais partagées avec qui que ce soit. Votre numéro de téléphone sera utilisé uniquement pour les connexions et la gestion des abonnements dans le système. Comme le montre le certificat ci-dessous, nous sommes autorisés à traiter vos données en toute confidentialité. Merci pour votre collaboration.
+        </i></small>
+        <img src="https://raw.githubusercontent.com/E-somo/RequestCountryCoverage/main/DataPrivacy.PNG" alt="Data Privacy Notice" />
+    </div>
+</div>
+  <script>    
+
+var globalanf= " ush";
+
+function showToast(message) {
+  var snackbar = document.getElementById("snackbar");
+  snackbar.textContent = message;
+  snackbar.className = "show";
+  setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+}
+
+
+showToast(' welcome  ✓  ')
+
+
+  var ParswalTile=`Parent Portal`; 
+
+var Parswal = `
+    <p>
+        This interface is designed for parents of students in schools with an AI and IoT-powered student behavior monitoring system.
+        <br><br>
+        The system, remotely installed in dedicated schools, automatically tracks student attendance and behavior using computer Vision technology.
+        <br><br>
+        In case of abnormal behavior, such as absence, it reports this information to respective parents via SMS, and a monthly report is emailed to them.
+        <br><br>
+        Parents can also access reports through this web application.
+    </p>
+`; 
+var teachswalTitl=`Teacher Portal `;
+var teachswal = `
+    <p>
+        This interface is designed for teachers to quickly view student absences, access their assigned classes, check the active timetable, and edit the timetable if authorized.
+        <br><br>
+        Teachers can monitor student attendance, review and manage their class schedules, and make adjustments to the timetable if they have the necessary permissions.
+        <br><br>
+        The system is streamlined to ensure that teachers have quick and easy access to the information they need to manage their classes effectively.
+    </p>
+`; 
+ 
+var  nanacaswalTitl=`School Admin Portal `;
+var adminswal = `
+    <p>
+        This interface is designed for school administrators to manage and oversee all student and staff attendance and behavior records.
+        <br><br>
+        Administrators can access detailed reports, update records, and ensure the smooth operation of the school's AI and IoT-powered monitoring systems.
+        <br><br>
+        The system provides tools for analyzing attendance trends, identifying behavior patterns, and taking corrective actions when necessary.
+    </p>
+`;
+
+var nanacaswal = `
+    <p>
+        This interface is designed for non-academic staff to manage their attendance and access behavior records.
+        <br><br>
+        Non-academic staff can view their attendance history, update records, and review behavior logs as needed.
+        <br><br>
+        The system ensures that staff members have a clear and easy-to-use platform for managing their work-related records.
+    </p>
+`; 
+
+
+
+
+var aboutis = `
+    <div style="text-align: left; font-family: Arial, sans-serif; line-height: 1.5;">
+                <p>
+                    This AI-powered automated system uses IoT and computer vision to track attendance for students and employees. For students, it detects delays and absences, notifying parents via SMS and sending summary reports to authorized personnel. The web application allows parents to remotely monitor these reports while authorized academic authorities can monitor classes in real-time with augmented reality.
+                </p>
+                <p>
+                    For employees, the system tracks attendance, notifies authorized personnel of absences, and reminds users to justify their absence to the system before notifying their employer. The web application enables employees to check their attendance reports and allows employers to monitor employee presence in real-time.
+                </p>
+                <p>
+                    Whether for academic or non-academic institutions, we offer this system at a very reasonable and affordable price. Click on "Request a Quote" to get started, and through simple steps, we will install the system in your company, enabling you to effortlessly monitor all activities of your organization.
+                </p>
+                <button onclick="onboard()" style="margin-top: 10px; padding: 8px 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Request a Quote
+                </button>
+                <p id="error-message" style="color: red; margin-top: 10px;"></p>
+            </div>
+`;
+
+  var modeNrgl =0; 
+  var multiplier = 0;
+
+  var currentDate = new Date();
+        
+        var currentYear = currentDate.getFullYear();
+        var currentMonth = currentDate.getMonth() + 1; // Months are zero-indexed
+        
+        // Calculate the sum of the current year and month
+        var sum = currentYear + currentMonth;
+      document.addEventListener('DOMContentLoaded', () => {
+          const parentSection = document.getElementById('parentSection');
+          const teacherSection = document.getElementById('teacherSection');
+          const adminSection = document.getElementById('adminSection');
+          const nonAcademicStaffSection = document.getElementById('nonAcademicStaffSection');
+
+          document.getElementById('parent').addEventListener('click', () => {
+              displaySection('parent');
+              fetchParentData();
+          });
+
+          document.getElementById('teacher').addEventListener('click', () => {
+              displaySection('teacher');
+              fetchTeacherData();
+          });
+
+          document.getElementById('admin').addEventListener('click', () => {
+              displaySection('admin');
+              fetchAdminData();
+          });
+
+          document.getElementById('nonAcademicStaff').addEventListener('click', () => {
+              displaySection('nonAcademicStaff');
+              fetchNonAcademicStaffData();
+          });
+
+
+          document.getElementById('nonAcademicStaffabout').addEventListener('click', () => {
+              
+            About();
+          });
+
+
+          document.getElementById('parentQuestionMark').addEventListener('click', () => {
+              Swal.fire({
+                  title: ParswalTile,
+                  html: Parswal,
+                  icon: 'info',
+                  confirmButtonText: 'Close'
+              });
+          });
+
+          document.getElementById('teacherQuestionMark').addEventListener('click', () => {
+              Swal.fire({
+                  title: teachswalTitl,
+                  html: teachswal,
+                  icon: 'info',
+                  confirmButtonText: 'Close'
+              });
+          });
+
+          document.getElementById('adminQuestionMark').addEventListener('click', () => {
+              Swal.fire({
+                  title: nanacaswalTitl,
+                  html: adminswal,
+   
+                  icon: 'info',
+                  confirmButtonText: 'Close'
+              });
+          });
+
+          document.getElementById('nonAcademicStaffQuestionMark').addEventListener('click', () => {
+              Swal.fire({
+                  title: 'Non Academic Staff Portal',
+                  html: nanacaswal,
+                  icon: 'info',
+                  confirmButtonText: 'Close'
+              });
+          });
+
+          function displaySection(userType) {
+              parentSection.style.display = 'none';
+              teacherSection.style.display = 'none';
+              adminSection.style.display = 'none';
+              nonAcademicStaffSection.style.display = 'none';
+
+              if (userType === 'parent') {
+                  parentSection.style.display = 'block';
+              } else if (userType === 'teacher') {
+                  teacherSection.style.display = 'block';
+              } else if (userType === 'admin') {
+                  adminSection.style.display = 'block';
+              } else if (userType === 'nonAcademicStaff') {
+                  nonAcademicStaffSection.style.display = 'block';
+              }
+          }
+
+          async function fetchParentData() {
+              // Fetch data from Google Sheets for parents
+              const response = await fetch('your-google-sheet-api-url');
+              const data = await response.json();
+              document.getElementById('parentData').innerHTML = JSON.stringify(data, null, 2);
+          }
+
+          async function fetchTeacherData() {
+              // Fetch data from Google Sheets for teachers
+              const response = await fetch('your-google-sheet-api-url');
+              const data = await response.json();
+              document.getElementById('teacherData').innerHTML = JSON.stringify(data, null, 2);
+          }
+
+          async function fetchAdminData() {
+              // Fetch data from Google Sheets for school admin
+              const response = await fetch('your-google-sheet-api-url');
+              const data = await response.json();
+              document.getElementById('adminData').innerHTML = JSON.stringify(data, null, 2);
+          }
+
+          async function fetchNonAcademicStaffData() {
+              // Fetch data from Google Sheets for non-academic staff
+              const response = await fetch('your-google-sheet-api-url');
+              const data = await response.json();
+              document.getElementById('nonAcademicStaffData').innerHTML = JSON.stringify(data, null, 2);
+          }
+      }); 
+
+      var ffer = "_4WXqNDpxqn0";
+    const base = 'https://docs.google.com/spreadsheets/d/1nutuT-vFjtJXfNHJjypJWlM5S8SD4WeSLeKMMGgasLI/gviz/tq?gid=1272886815';
+    const query = encodeURIComponent('Select A, B'); // Adjusted query to select all columns
+    const url = base + '&tq=' + query;
+
+    function formatDate(dateString) {
+      const datePattern = /Date\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\)/;
+      const match = dateString.match(datePattern);
+      if (match) {
+        const year = match[1];
+        const month = parseInt(match[2], 10) + 1;
+        const day = match[3];
+        const hours = match[4];
+        const minutes = match[5];
+        const seconds = match[6];
+        return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+      }
+      return dateString;
+    }
+
+    async function fetchData(trainerPhone, courseId, searchNumber) {
+      try {
+        const response = await fetch(url);
+        const rep = await response.text();
+        const data = JSON.parse(rep.substr(47).slice(0, -2));
+
+        let tableData = '<table border="1" style="width:100%; text-align:left;">';
+        tableData += '<tr><th>Column A</th><th>Column B</th></tr>';
+
+        let found = false;
+        const rows = data.table.rows.reverse();
+        rows.forEach((main) => {
+          let rowData = '';
+          let rowContainsSearchCriteria = false;
+          main.c.forEach((ele, index) => {
+            if (ele) {
+              let cellValue = ele.v;
+              if (index === 0 && typeof cellValue === 'string' && cellValue.startsWith('Date(')) {
+                cellValue = formatDate(cellValue);
+              }
+              rowData += `<td>${cellValue}</td>`;
+              if (
+                (trainerPhone.length > 10 && !courseId && !searchNumber && trainerPhone && cellValue.includes("Trainer " + trainerPhone)) ||
+                (trainerPhone.length > 10 && courseId && !searchNumber && trainerPhone && cellValue.includes("Trainer " + trainerPhone + " Lesson " + courseId)) ||
+                (searchNumber.length > 10 && trainerPhone.length > 10 && courseId && searchNumber && trainerPhone && cellValue.includes("Trainer " + trainerPhone + " Lesson " + courseId + " Trainee " + searchNumber)) ||
+                (searchNumber.length > 10 && trainerPhone.length > 10 && !courseId && searchNumber && trainerPhone && cellValue.includes(" Trainee " + searchNumber))
+              ) {
+                rowContainsSearchCriteria = true;
+              }
+            } else {
+              rowData += '<td></td>';
+            }
+          });
+          if (rowContainsSearchCriteria) {
+            tableData += `<tr>${rowData}</tr>`;
+            found = true;
+          }
+        });
+
+        tableData += '</table>';
+
+        if (found) {
+          Swal.fire({
+            title: 'Search Results',
+            html: tableData,
+            allowOutsideClick: false,
+            icon: 'info'
+          });
+        } else {
+          Swal.fire({
+            title: 'No Results Found',
+            text: 'No found for the searched criteria.',
+            icon: 'warning'
+          });
+        }
+
+      } catch (error) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Failed to load data from server make sure your internet is ok or try again after some time.',
+          icon: 'error'
+        });
+      }
+    }
+
+    function searchData() {
+      const trainerPhone = document.getElementById('swal-input1').value;
+      const courseId = document.getElementById('swal-input2').value;
+      const searchNumber = document.getElementById('swal-input3').value;
+      const errorMessage = document.getElementById('error-message');  
+
+      if(modeNrgl <4){
+        multiplier= 7;
+      }else{
+        multiplier= 5;
+      }
+
+      var finalResult = (sum * multiplier) + parseInt(trainerPhone)
+      var finalResult2 = ((sum+1) * multiplier) + parseInt(trainerPhone)
+
+      // Check if courseId is equal to double the value of trainerPhone
+      if (parseInt(courseId) !== finalResult && (parseInt(courseId) !== finalResult2)) {
+        errorMessage.textContent = ' wrong or expired  teacher\'s PIN please use correct PIN ';
+        return; // Stop the function if validation fails
+      }else{
+
+      // If validation passes, call fetchData
+      if(modeNrgl==3) { 
+        if(searchNumber==""){
+          alert("N.B you must fill in the class id also !")
+        }else{
+          window.open('timetable.html', '_blank');
+        }
+        
+      }
+      if(modeNrgl===4) {
+        alert("Edit  time table")
+      }
+      if(modeNrgl===1) {
+      fetchData(trainerPhone, courseId, searchNumber);
+      } 
+      if(modeNrgl===2) {
+      fetchData(trainerPhone, courseId, searchNumber);
+      }
+    }}  
+
+
+
+
+    function openSearchModal(modeNr) { 
+      modeNrgl= modeNr;
+      var title ="N/a";
+        if(modeNr===1) {
+          title="Find all absent student in my class"
+        }
+        if(modeNr===2) {
+          title="My Class acess report"
+        }
+
+        if(modeNr===3) {
+          title="View class Time table"
+        } 
+
+        if(modeNr===4) {
+          title="Edit Time table <br> Only Autorized !"
+        } 
+
+
+        Swal.fire({
+  title: title,
+  html: `
+    <div class="container">
+      <input type="text" id="swal-input1" placeholder="Teacher phone">
+      <input type="text" id="swal-input2" placeholder="Teacher PIN">
+      <input type="text" id="swal-input3" placeholder="Class Id (optional)  view all classes if empty">
+      <button onclick="searchData()">Search</button>
+      <p id="error-message" style="color:red;"></p>
+    </div>
+  `,
+  showConfirmButton: false,
+  showCloseButton: true,
+  footer: "To find teacher PIN dial *584*5*100#"
+});
+
+    }  
+
+
+
+
+    function parentsearchData(){
+
+      const trainerPhone = document.getElementById('swal-input1').value;
+      const courseId = document.getElementById('swal-input2').value;
+      const searchNumber = document.getElementById('swal-input3').value;
+      const errorMessage = document.getElementById('error-message');  
+
+      if(modeNrgl <4){
+        multiplier= 7;
+      }else{
+        multiplier= 5;
+      }
+
+      var finalResult = (sum * multiplier) + parseInt(trainerPhone)
+      var finalResult2 = ((sum+1) * multiplier) + parseInt(trainerPhone)
+
+      // Check if courseId is equal to double the value of trainerPhone
+      if (parseInt(courseId) !== finalResult && (parseInt(courseId) !== finalResult2)) {
+        errorMessage.textContent = ' Wrong or expired  Parent\'s PIN please use correct PIN '
+        return; // Stop the function if validation fails
+      }else{
+
+      // If validation passes, call fetchData
+      if(modeNrgl==3) { 
+        if(searchNumber==""){
+          alert("N.B you must fill in the class id also !")
+        }else{
+          window.open('timetable.html', '_blank');
+        }
+        
+      }
+     
+      if(modeNrgl===1) {
+      fetchData(trainerPhone, courseId, searchNumber);
+      } 
+      if(modeNrgl===2) {
+      fetchData(trainerPhone, courseId, searchNumber);
+      }
+    }
+
+    }
+
+    function openparenthModal(modeNr) { 
+      modeNrgl= modeNr;
+      var title ="N/a";
+        if(modeNr===1) {
+          title="My child <br> Confirmed Absence Report"
+        }
+        if(modeNr===2) {
+          title="My Child  <br>  Attendance report"
+        }
+
+        if(modeNr===3) {
+          title="View  my child <br> class Time table"
+        } 
+
+        
+        Swal.fire({
+  title: title,
+  html: `
+    <div class="container">
+      <input type="text" id="swal-input1" placeholder="Parent  phone Number 07xxxxxx">
+      <input type="text" id="swal-input2" placeholder="parent PIN ">
+      <input type="text" id="swal-input3" placeholder="Class Id (optional)  view all classes if empty">
+      <button onclick="parentsearchData()">Search</button>
+      <p id="error-message" style="color:red;"></p>
+    </div>
+  `,
+  showConfirmButton: false,
+  showCloseButton: true,
+  footer: "To find Parent PIN PIN dial *584*5*100#"
+});
+
+    }
+
+
+    function About() {
+    Swal.fire({
+        title: "About The Service",
+        html: `  
+         <audio controls>
+        <source src="https://raw.githubusercontent.com/E-somo/LiveShow/main/edusmat1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+         
+        `+aboutis,
+        showConfirmButton: false,
+        showCloseButton: true,
+        footer: "Powered by T-smart Solutions Ltd"
+    });
+}
+
+function onboard() {
+    Swal.fire({
+        title: 'Onboarding Steps',
+        html: `
+            <audio controls>
+                <source src="https://raw.githubusercontent.com/E-somo/LiveShow/main/edusmat2.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <p><strong>1. Initial Consultation:</strong></p>
+            <p>Schedule a meeting to discuss your needs.</p>
+            <p>Assess current attendance tracking methods.</p>
+            <hr>
+            <p><strong>2. System Customization:</strong></p>
+            <p>Define tracking criteria for students and employees.</p>
+            <p>Customize the system to fit your requirements.</p>
+            <hr>
+            <p><strong>3. Hardware and Software Setup:</strong></p>
+            <p>Install IoT devices at designated locations.</p>
+            <p>Configure the software on your servers or cloud.</p>
+            <hr>
+            <p><strong>4. User Training:</strong></p>
+            <p>Train administrative staff and users on system operations.</p>
+            <p>If you wish to use our bespoke services, initiate the first step by scheduling a meeting with us via email: 
+               <a href="mailto:communitypttai@gmail.com" class="no-underline">communitypttai@gmail.com</a></p>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        footer: '<a href="#" id="triggerFunction">Click here to see a list of use cases</a>',
+        didRender: function () {
+            document.getElementById('triggerFunction').onclick = function (event) {
+                event.preventDefault();
+                listing();
+            };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            console.log('Confirmed'); 
+            if (globalanf === 'FRE') {
+            showToast("Merci et à bientôt.")
+            }else  {
+              showToast("Thank see you soon !")
+            }
+        } else {
+            console.log('Cancelled');
+        }
+    });
+}
+
+
+function findallansent() {
+  
+  Swal.fire({
+  title: "Find all abscent in  assigned institution ",
+  html: `
+    <div class="container">
+      <input type="text" id="swal-input1" placeholder="Teacher phone">
+      <input type="text" id="swal-input2" placeholder="Teacher PIN">
+      <input type="text" id="swal-input3" placeholder="Class Id (optional)  view all classes if empty">
+      <button onclick="searchData()">Search</button>
+      <p id="error-message" style="color:red;"></p>
+    </div>
+  `,
+  showConfirmButton: false,
+  showCloseButton: true,
+  showConfirmButton: false,
+showCloseButton: true,
+footer: 'To find teacher PIN dial *584*5*100#  <br> <br>  Data Privacy Notice <a href="#" onclick="privacy()">Click here</a>'
+});
+
+
+} 
+
+function findspecific(){
+ 
+  Swal.fire({
+  title: "find abscence report of specific person",
+  html: `
+    <div class="container">
+      <input type="text" id="swal-input1" placeholder="Teacher phone">
+      <input type="text" id="swal-input2" placeholder="Teacher PIN">
+      <input type="text" id="swal-input3" placeholder="Class Id (optional)  view all classes if empty">
+      <button onclick="searchData()">Search</button>
+      <p id="error-message" style="color:red;"></p>
+    </div>
+  `,
+  showConfirmButton: false,
+  showCloseButton: true,
+footer: "To find Adnim PIN Contact the company"
+});
+
+} 
+
+function findstaff() {
+  Swal.fire({
+  title: "find attendance report of specific person",
+  html: `
+    <div class="container">
+      <input type="text" id="swal-input1" placeholder="Teacher phone">
+      <input type="text" id="swal-input2" placeholder="Teacher PIN">
+      <input type="text" id="swal-input3" placeholder="Class Id (optional)  view all classes if empty">
+      <button onclick="searchData()">Search</button>
+      <p id="error-message" style="color:red;"></p>
+    </div>
+  `,
+  showConfirmButton: false,
+  showCloseButton: true,
+  footer: "To find Adnim PIN Contact the company"
+});
+
+} 
+
+
+function findtimetable() {
+
+  Swal.fire({
+  title: title,
+  html: `
+    <div class="container">
+      <input type="text" id="swal-input1" placeholder="Teacher phone">
+      <input type="text" id="swal-input2" placeholder="Teacher PIN">
+      <input type="text" id="swal-input3" placeholder="Class Id (optional)  view all classes if empty">
+      <button onclick="searchData()">Search</button>
+      <p id="error-message" style="color:red;"></p>
+    </div>
+  `,
+  showConfirmButton: false,
+  showCloseButton: true,
+ footer: "To find Adnim PIN Contact the company"
+});
+
+
+} 
+ 
+
+const currentYear2 = new Date().getFullYear();
+       const footerText = `© Copyright 2018 - ${currentYear} T-Smart Solution Ltd.`;
+       document.getElementById('footer-text').innerText = footerText;
+
+       function toggleLang(lang) { 
+
+        globalanf =lang; 
+            console.log("Language selected:", lang);
+            showToast ("Language changed to : "+lang)
+            // Implement your language toggle functionality here 
+
+            parentSection.style.display = 'none';
+              teacherSection.style.display = 'none';
+              adminSection.style.display = 'none';
+              nonAcademicStaffSection.style.display = 'none'; 
+
+          
+              if (lang === 'FRE') {
+        document.querySelector('header h1').textContent = 'Système de Gestion Automatisé Alimenté par l\'IA pour les Étudiants et le Personnel';
+        
+        // Update navigation links
+        document.getElementById('parent').textContent = 'Parent';
+        document.getElementById('teacher').textContent = 'Enseignant';
+        document.getElementById('admin').textContent = 'Administrateur Scolaire';
+        document.getElementById('nonAcademicStaff').textContent = 'Gestion du Personnel Non Académique';
+        document.getElementById('nonAcademicStaffabout').textContent = 'À propos';
+
+        // Update section headings without altering the span
+        document.querySelector('#parentSection h2').childNodes[0].textContent = 'Portail Parent ';
+        document.querySelector('#teacherSection h2').childNodes[0].textContent = 'Portail Enseignant ';
+        document.querySelector('#adminSection h2').childNodes[0].textContent = 'Portail Administrateur Scolaire ';
+        document.querySelector('#nonAcademicStaffSection h2').childNodes[0].textContent = 'Portail du Personnel Non Académique ';
+
+        // Update buttons for Parent Portal
+        document.querySelector('#parentSection button:nth-child(1)').textContent = 'Mon Enfant\nAbsences Confirmées';
+        document.querySelector('#parentSection button:nth-child(2)').textContent = 'Mon Enfant\nDossiers de Présence';
+        document.querySelector('#parentSection button:nth-child(3)').textContent = 'Mon Enfant\nEmploi du Temps';
+
+        // Update buttons for Teacher Portal
+        document.querySelector('#teacherSection button:nth-child(1)').textContent = 'Présence en Classe';
+        document.querySelector('#teacherSection button:nth-child(2)').textContent = 'Ma Présence';
+        document.querySelector('#teacherSection button:nth-child(3)').textContent = 'Emploi du Temps';
+
+        // Update buttons for School Admin Portal
+        document.querySelector('#adminSection button:nth-child(1)').textContent = 'Tous les étudiants absents';
+        document.querySelector('#adminSection button:nth-child(2)').textContent = 'Rechercher absence étudiants';
+        document.querySelector('#adminSection button:nth-child(3)').textContent = 'Rechercher absence du personnel';
+        document.querySelector('#adminSection button:nth-child(4)').textContent = 'Voir les emplois du temps';
+
+        // Update buttons for Non Academic Staff Portal
+        document.querySelector('#nonAcademicStaffSection button:nth-child(1)').textContent = 'Toutes les absences du personnel non académique';
+        document.querySelector('#nonAcademicStaffSection button:nth-child(2)').textContent = 'Rechercher absence du personnel non académique';
+        document.querySelector('#nonAcademicStaffSection button:nth-child(3)').textContent = 'Mes dossiers de présence';
+
+        // Update footer
+       // document.getElementById('footer-text').textContent = '© 2024 Système Alimenté par l\'IA Edusmart. Tous droits réservés.';
+   
+       
+       ParswalTile = `Portail des Parents`;
+
+ Parswal = `
+    <p>
+        Cette interface est conçue pour les parents d'élèves dans les écoles dotées d'un système de surveillance du comportement des élèves alimenté par l'IA et l'IoT.
+        <br><br>
+        Le système, installé à distance dans des écoles dédiées, suit automatiquement la présence et le comportement des élèves en utilisant la technologie de Vision par ordinateur.
+        <br><br>
+        En cas de comportement anormal, tel que l'absence, il informe les parents concernés par SMS, et un rapport mensuel leur est envoyé par email.
+        <br><br>
+        Les parents peuvent également accéder aux rapports via cette application web.
+    </p>
+`;
+
+ teachswalTitl = `Portail des Enseignants`;
+
+ teachswal = `
+    <p>
+        Cette interface est conçue pour permettre aux enseignants de consulter rapidement les absences des élèves, d'accéder à leurs classes assignées, de vérifier l'emploi du temps actif et de modifier l'emploi du temps si autorisé.
+        <br><br>
+        Les enseignants peuvent surveiller la présence des élèves, examiner et gérer leurs horaires de cours, et apporter des ajustements à l'emploi du temps s'ils ont les autorisations nécessaires.
+        <br><br>
+        Le système est simplifié pour s'assurer que les enseignants ont un accès rapide et facile aux informations dont ils ont besoin pour gérer efficacement leurs classes.
+    </p>
+`;
+
+ nanacaswalTitl = `Portail Administratif`;
+
+ adminswal = `
+    <p>
+        Cette interface est conçue pour les administrateurs scolaires afin de gérer et de superviser tous les dossiers de présence et de comportement des élèves et du personnel.
+        <br><br>
+        Les administrateurs peuvent accéder à des rapports détaillés, mettre à jour les dossiers et assurer le bon fonctionnement des systèmes de surveillance alimentés par l'IA et l'IoT de l'école.
+        <br><br>
+        Le système fournit des outils pour analyser les tendances de présence, identifier les comportements et prendre les mesures correctives nécessaires.
+    </p>
+`;
+
+nanacaswal = `
+    <p>
+        Cette interface est conçue pour le personnel non enseignant afin de gérer leur présence et d'accéder aux dossiers de comportement.
+        <br><br>
+        Le personnel non enseignant peut consulter leur historique de présence, mettre à jour les dossiers et examiner les journaux de comportement au besoin.
+        <br><br>
+        Le système garantit que le personnel dispose d'une plateforme claire et facile à utiliser pour gérer leurs dossiers de travail.
+    </p>
+`;
+
+
+aboutis = `
+    <div style="text-align: left; font-family: Arial, sans-serif; line-height: 1.5;">
+        <p>
+            Ce système automatisé alimenté par l'IA utilise l'IoT et la vision par ordinateur pour suivre la présence des élèves et des employés. Pour les élèves, il détecte les retards et les absences, informe les parents par SMS et envoie des rapports récapitulatifs aux personnes autorisées. L'application web permet aux parents de surveiller ces rapports à distance, tandis que les autorités académiques autorisées peuvent surveiller les classes en temps réel avec la réalité augmentée.
+        </p>
+        <p>
+            Pour les employés, le système suit la présence, informe les personnes autorisées des absences et rappelle aux utilisateurs de justifier leur absence auprès du système avant d'informer leur employeur. L'application web permet aux employés de consulter leurs rapports de présence et aux employeurs de surveiller en temps réel la présence des employés.
+        </p>
+        <p>
+            Que ce soit pour des institutions académiques ou non académiques, nous offrons ce système à un prix très raisonnable et abordable. Cliquez sur "Demander un devis" pour commencer, et en quelques étapes simples, nous installerons le système dans votre entreprise, vous permettant de surveiller facilement toutes les activités de votre organisation.
+        </p>
+        <button onclick="onboard()" style="margin-top: 10px; padding: 8px 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Demander un devis
+        </button>
+        <p id="error-message" style="color: red; margin-top: 10px;"></p>
+    </div>
+`;
+   
+   
+   
+      } else if (lang === 'ENG') {
+        document.querySelector('header h1').textContent = 'Automated AI-Powered Management System for Students and Staff';
+
+        // Update navigation links
+        document.getElementById('parent').textContent = 'Parent';
+        document.getElementById('teacher').textContent = 'Teacher';
+        document.getElementById('admin').textContent = 'School Admin';
+        document.getElementById('nonAcademicStaff').textContent = 'Non Academic Staff Management';
+        document.getElementById('nonAcademicStaffabout').textContent = 'About';
+
+        // Update section headings without altering the span
+        document.querySelector('#parentSection h2').childNodes[0].textContent = 'Parent Portal ';
+        document.querySelector('#teacherSection h2').childNodes[0].textContent = 'Teacher Portal ';
+        document.querySelector('#adminSection h2').childNodes[0].textContent = 'School Admin Portal ';
+        document.querySelector('#nonAcademicStaffSection h2').childNodes[0].textContent = 'Non Academic Staff Portal ';
+
+        // Update buttons for Parent Portal
+        document.querySelector('#parentSection button:nth-child(1)').textContent = 'My Child\nConfirmed Absences';
+        document.querySelector('#parentSection button:nth-child(2)').textContent = 'My Child\nAttendance Records';
+        document.querySelector('#parentSection button:nth-child(3)').textContent = 'My Child\nClass Time Table';
+
+        // Update buttons for Teacher Portal
+        document.querySelector('#teacherSection button:nth-child(1)').textContent = 'Class Attendance';
+        document.querySelector('#teacherSection button:nth-child(2)').textContent = 'My Attendance';
+        document.querySelector('#teacherSection button:nth-child(3)').textContent = 'Time Table';
+
+        // Update buttons for School Admin Portal
+        document.querySelector('#adminSection button:nth-child(1)').textContent = 'All absent students';
+        document.querySelector('#adminSection button:nth-child(2)').textContent = 'Search students absence';
+        document.querySelector('#adminSection button:nth-child(3)').textContent = 'Search staff absence';
+        document.querySelector('#adminSection button:nth-child(4)').textContent = 'View Time tables';
+
+        // Update buttons for Non Academic Staff Portal
+        document.querySelector('#nonAcademicStaffSection button:nth-child(1)').textContent = 'All non academic staff absences';
+        document.querySelector('#nonAcademicStaffSection button:nth-child(2)').textContent = 'Search non academic staff absence';
+        document.querySelector('#nonAcademicStaffSection button:nth-child(3)').textContent = 'My attendance Records';
+
+        // Update footer
+      //  document.getElementById('footer-text').textContent = '© 2024 Edusmart AI Powered System. All rights reserved.';
+    } 
+
+    else if (lang === 'KINYA') {
+        document.querySelector('header h1').textContent = 'Sisitemu  Automatic ikoresha ubuhanga bwa AI mugukurikirana imyitwarire y’abanyeshuri ndetse n abakozi ';
+
+        // Update navigation links
+        document.getElementById('parent').textContent = 'Umubyeyi';
+        document.getElementById('teacher').textContent = 'Umwarimu';
+        document.getElementById('admin').textContent = 'Umuyobozi w\'ishuri';
+        document.getElementById('nonAcademicStaff').textContent = 'Gucunga abakozi ahatari ku mashuri';
+        document.getElementById('nonAcademicStaffabout').textContent = 'Ibyerekeye';
+
+        // Update section headings without altering the span
+        document.querySelector('#parentSection h2').childNodes[0].textContent = 'Ahakoreshwa n\' ababyeyi';
+        document.querySelector('#teacherSection h2').childNodes[0].textContent = 'Ahakoreshwa n\'abarimu ';
+        document.querySelector('#adminSection h2').childNodes[0].textContent = 'Ahakoreshwa n\'abayibozi b\'amashuri ';
+        document.querySelector('#nonAcademicStaffSection h2').childNodes[0].textContent = 'Ahakoreshwa n\'ibigo bitari amashuri';
+
+        // Update buttons for Parent Portal
+        document.querySelector('#parentSection button:nth-child(1)').textContent = 'Umwana wanjye aho\n byemejwe ko yasibye';
+        document.querySelector('#parentSection button:nth-child(2)').textContent = 'Umwana wanjye \n uko yitabira';
+        document.querySelector('#parentSection button:nth-child(3)').textContent = 'Ingenga masomo\n y\'umwana wanjye';
+
+        // Update buttons for Teacher Portal
+        document.querySelector('#teacherSection button:nth-child(1)').textContent = 'Ukwitabira Ishuri';
+        document.querySelector('#teacherSection button:nth-child(2)').textContent = 'Ukwitabira kwanjye';
+        document.querySelector('#teacherSection button:nth-child(3)').textContent = 'Ingengabihe y amasomo';
+
+        // Update buttons for School Admin Portal
+        document.querySelector('#adminSection button:nth-child(1)').textContent = 'Abanyeshuri bose basibye';
+        document.querySelector('#adminSection button:nth-child(2)').textContent = 'Shaka abanyeshuri basibye';
+        document.querySelector('#adminSection button:nth-child(3)').textContent = 'Shaka umukozi wasibye';
+        document.querySelector('#adminSection button:nth-child(4)').textContent = 'Reba ingengamasomo';
+
+        // Update buttons for Non Academic Staff Portal
+        document.querySelector('#nonAcademicStaffSection button:nth-child(1)').textContent = 'Abakozi basibye';
+        document.querySelector('#nonAcademicStaffSection button:nth-child(2)').textContent = 'Rebako umukozi yasibye';
+        document.querySelector('#nonAcademicStaffSection button:nth-child(3)').textContent = 'Ubwitabire bwanjye/umukozi';
+
+        // Update footer
+        //document.getElementById('footer-text').textContent = '© 2024 Edusmart AI Powered System. All rights reserved.';
+    }
+
+
+
+
+
+        } 
+
+
+
+ 
+
+        function listing() {   
+
+      
+
+          if (globalanf === 'FRE') {
+
+            Swal.fire({
+        title: "Institutions bénéficiant d'un système de pointage",
+        html: `
+            <p>Un système de pointage du personnel ou des travailleurs peut être utile dans diverses institutions pour surveiller et gérer efficacement la présence des employés. Voici une liste d'institutions qui pourraient bénéficier d'un tel système :</p>
+            <hr>
+            <p><strong>Institutions éducatives :</strong></p>
+            <ul>
+                <li>Écoles (primaire, secondaire, tertiaire)</li>
+                <li>Collèges et universités</li>
+                <li>Centres de formation et académies</li>
+            </ul>
+            <hr>
+            <p><strong>Institutions gouvernementales :</strong></p>
+            <ul>
+                <li>Bureaux municipaux</li>
+                <li>Départements des services publics (ex : santé, éducation, transport)</li>
+                <li>Agences d'application de la loi</li>
+                <li>Institutions militaires et de défense</li>
+            </ul>
+            <hr>
+            <p><strong>Institutions de santé :</strong></p>
+            <ul>
+                <li>Hôpitaux et cliniques</li>
+                <li>Maisons de retraite</li>
+                <li>Laboratoires</li>
+                <li>Centres de réadaptation</li>
+            </ul>
+            <hr>
+            <p><strong>Entreprises et entités commerciales :</strong></p>
+            <ul>
+                <li>Petites, moyennes et grandes entreprises</li>
+                <li>Multinationales</li>
+                <li>Banques et institutions financières</li>
+                <li>Entreprises de technologie de l'information (IT)</li>
+            </ul>
+            <hr>
+            <p><strong>Installations de fabrication et industrielles :</strong></p>
+            <ul>
+                <li>Usines et sites de production</li>
+                <li>Entrepôts et centres de distribution</li>
+                <li>Entreprises de construction</li>
+                <li>Fournisseurs d'énergie et de services publics</li>
+            </ul>
+            <hr>
+            <p><strong>Organisations à but non lucratif et ONG :</strong></p>
+            <ul>
+                <li>Organisations caritatives</li>
+                <li>Organisations de service communautaire</li>
+                <li>Organisations environnementales</li>
+            </ul>
+            <hr>
+            <p><strong>Secteur de la vente au détail et de l'hôtellerie :</strong></p>
+            <ul>
+                <li>Magasins de détail et centres commerciaux</li>
+                <li>Hôtels et centres de villégiature</li>
+                <li>Restaurants et cafés</li>
+            </ul>
+            <hr>
+            <p><strong>Transport et logistique :</strong></p>
+            <ul>
+                <li>Compagnies aériennes et aéroports</li>
+                <li>Compagnies de transport maritime et logistique</li>
+                <li>Systèmes ferroviaires et de transport public</li>
+            </ul>
+            <hr>
+            <p><strong>Institutions de recherche et développement :</strong></p>
+            <ul>
+                <li>Laboratoires de recherche</li>
+                <li>Centres d'innovation</li>
+                <li>Institutions de recherche académique</li>
+            </ul>
+            <hr>
+            <p><strong>Entreprises de sécurité :</strong></p>
+            <ul>
+                <li>Compagnies de sécurité privée</li>
+                <li>Agences de surveillance et de monitoring</li>
+            </ul>
+            <hr>
+            <p><strong>Opérations agricoles et agricoles :</strong></p>
+            <ul>
+                <li>Fermes et entreprises agricoles</li>
+                <li>Exploitation forestière et pêche</li>
+            </ul>
+            <hr>
+            <p><strong>Entreprises de médias et de divertissement :</strong></p>
+            <ul>
+                <li>Stations de télévision et de radio</li>
+                <li>Compagnies de production cinématographique</li>
+                <li>Entreprises de gestion d'événements</li>
+            </ul>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Confirmer',
+        cancelButtonText: 'Annuler',
+        
+    }).then((result) => {
+        if (result.isConfirmed) {
+            console.log('Confirmé');
+            showToast("Merci et à bientôt.")
+        } else {
+            console.log('Annulé');
+        }
+    });
+
+           } else {
+        Swal.fire({
+        title: 'Institutions Benefiting from an Attendance System',
+        html: `
+            <p>A staff or workers' attendance system can be useful across various institutions to monitor and manage employee attendance effectively. Here’s a list of institutions that might benefit from such a system:</p>
+            <hr>
+            <p><strong>Educational Institutions:</strong></p>
+            <ul>
+                <li>Schools (primary, secondary, tertiary)</li>
+                <li>Colleges and Universities</li>
+                <li>Training centers and academies</li>
+            </ul>
+            <hr>
+            <p><strong>Government Institutions:</strong></p>
+            <ul>
+                <li>Municipal offices</li>
+                <li>Public service departments (e.g., health, education, transportation)</li>
+                <li>Law enforcement agencies</li>
+                <li>Military and defense institutions</li>
+            </ul>
+            <hr>
+            <p><strong>Healthcare Institutions:</strong></p>
+            <ul>
+                <li>Hospitals and clinics</li>
+                <li>Nursing homes</li>
+                <li>Laboratories</li>
+                <li>Rehabilitation centers</li>
+            </ul>
+            <hr>
+            <p><strong>Corporate and Business Entities:</strong></p>
+            <ul>
+                <li>Small, medium, and large enterprises</li>
+                <li>Multinational corporations</li>
+                <li>Banks and financial institutions</li>
+                <li>IT companies and tech firms</li>
+            </ul>
+            <hr>
+            <p><strong>Manufacturing and Industrial Facilities:</strong></p>
+            <ul>
+                <li>Factories and production plants</li>
+                <li>Warehouses and distribution centers</li>
+                <li>Construction companies</li>
+                <li>Energy and utility providers</li>
+            </ul>
+            <hr>
+            <p><strong>Non-Profit Organizations and NGOs:</strong></p>
+            <ul>
+                <li>Charitable organizations</li>
+                <li>Community service organizations</li>
+                <li>Environmental organizations</li>
+            </ul>
+            <hr>
+            <p><strong>Retail and Hospitality Sector:</strong></p>
+            <ul>
+                <li>Retail stores and shopping centers</li>
+                <li>Hotels and resorts</li>
+                <li>Restaurants and cafes</li>
+            </ul>
+            <hr>
+            <p><strong>Transportation and Logistics:</strong></p>
+            <ul>
+                <li>Airlines and airports</li>
+                <li>Shipping and logistics companies</li>
+                <li>Railways and public transport systems</li>
+            </ul>
+            <hr>
+            <p><strong>Research and Development Institutions:</strong></p>
+            <ul>
+                <li>Research labs</li>
+                <li>Innovation centers</li>
+                <li>Academic research institutions</li>
+            </ul>
+            <hr>
+            <p><strong>Security Firms:</strong></p>
+            <ul>
+                <li>Private security companies</li>
+                <li>Monitoring and surveillance agencies</li>
+            </ul>
+            <hr>
+            <p><strong>Agricultural and Farming Operations:</strong></p>
+            <ul>
+                <li>Farms and agricultural businesses</li>
+                <li>Forestry and fisheries</li>
+            </ul>
+            <hr>
+            <p><strong>Media and Entertainment Companies:</strong></p>
+            <ul>
+                <li>TV and radio stations</li>
+                <li>Film production companies</li>
+                <li>Event management companies</li>
+            </ul>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+     
+      
+    }).then((result) => {
+        if (result.isConfirmed) {
+            console.log('Confirmed');
+            showToast(" Thank See you soon !")
+        } else {
+            console.log('Cancelled');
+            
+        }
+    });
+
+  }}
+
+
+  function privacy(){
+
+    document.getElementById('customAlert').style.display = 'block';
+  }  
+
+
+  function closeCustomAlert() {
+            document.getElementById('customAlert').style.display = 'none';
+        }
+  </script>
+</body>
+</html>
