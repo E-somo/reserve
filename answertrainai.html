@@ -4,6 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Sheets Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        #dataContainer {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .row:last-child {
+            border-bottom: none;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .date, .data {
+            font-size: 16px;
+        }
+        .date {
+            font-weight: bold;
+        }
+        .data {
+            color: #555;
+        }
+        textarea {
+            width: 100%;
+            height: 60px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <div id="dataContainer"></div>
@@ -34,36 +95,40 @@
 
             for (let i = rowsToDisplay.length - 1; i >= 0; i--) { // Display in reverse order
                 const row = document.createElement('div');
-                row.style.marginBottom = '10px';
+                row.className = 'row';
+
+                // Create header with date and label
+                const header = document.createElement('div');
+                header.className = 'header';
 
                 // Format and display column A date data
                 const colAElement = document.createElement('span');
+                colAElement.className = 'date';
                 const rawDateValue = rowsToDisplay[i].c[0] ? rowsToDisplay[i].c[0].v : null;
                 const dateValue = rawDateValue ? parseGoogleSheetsDate(rawDateValue) : null;
                 colAElement.innerText = dateValue ? formatDate(dateValue) : ''; // Column A data
-                row.appendChild(colAElement);
+                header.appendChild(colAElement);
 
                 // Display column B data
                 const colBElement = document.createElement('span');
+                colBElement.className = 'data';
                 colBElement.innerText = rowsToDisplay[i].c[1] ? ` - ${rowsToDisplay[i].c[1].v}` : ''; // Column B data
-                colBElement.style.marginLeft = '10px';
-                row.appendChild(colBElement);
+                header.appendChild(colBElement);
 
-                // Create input field
-                const inputField = document.createElement('input');
-                inputField.type = 'text';
-                inputField.style.marginLeft = '10px';
-                row.appendChild(inputField);
+                row.appendChild(header);
+
+                // Create textarea
+                const textarea = document.createElement('textarea');
+                row.appendChild(textarea);
 
                 // Create button
                 const button = document.createElement('button');
                 button.innerText = 'Alert';
-                button.style.marginLeft = '10px';
-                button.onclick = (function(colBData, inputField) {
+                button.onclick = (function(colBData, textarea) {
                     return function() {
-                        alert('Data: ' + colBData + '\nInput: ' + inputField.value);
+                        alert('Data: ' + colBData + '\nInput: ' + textarea.value);
                     };
-                })(rowsToDisplay[i].c[1] ? rowsToDisplay[i].c[1].v : '', inputField);
+                })(rowsToDisplay[i].c[1] ? rowsToDisplay[i].c[1].v : '', textarea);
                 row.appendChild(button);
 
                 container.appendChild(row);
