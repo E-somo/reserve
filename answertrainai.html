@@ -65,9 +65,15 @@
             border-radius: 4px;
             cursor: pointer;
             margin-top: 10px;
+            margin-right: 10px;
         }
         button:hover {
             background-color: #0056b3;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
         }
     </style>
     <!-- SweetAlert2 -->
@@ -150,15 +156,30 @@
                 const textarea = document.createElement('textarea');
                 row.appendChild(textarea);
 
-                // Create button
-                const button = document.createElement('button');
-                button.innerText = 'Alert';
-                button.onclick = (function(colBElement, textarea) {
+                // Create container for buttons
+                const buttonContainer = document.createElement('div');
+                buttonContainer.className = 'button-container';
+
+                // Create Alert button
+                const alertButton = document.createElement('button');
+                alertButton.innerText = 'Alert';
+                alertButton.onclick = (function(colBElement, textarea) {
                     return function() {
                         alert('Label: ' + colBElement.innerText + '\nInput: ' + textarea.value);
                     };
                 })(colBElement, textarea);
-                row.appendChild(button);
+                buttonContainer.appendChild(alertButton);
+
+                // Create Transcribe button
+                const transcribeButton = document.createElement('button');
+                transcribeButton.innerText = 'Transcribe';
+                transcribeButton.onclick = function() {
+                    //alert('Ready');
+                    showSpeechToTextModal()
+                };
+                buttonContainer.appendChild(transcribeButton);
+
+                row.appendChild(buttonContainer);
 
                 container.appendChild(row);
             }
@@ -190,6 +211,109 @@
             const hours = String(date.getHours()).padStart(2, '0');
             const minutes = String(date.getMinutes()).padStart(2, '0');
             return `${day}-${month}-${year} ${hours}:${minutes}`;
+        }  
+        
+        
+        
+        
+         let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        let selectedLanguageButton = null;
+        let transcribedText = '';
+        let infomoer = 0;
+
+        function setLanguage(language) {
+            recognition.lang = language;
+
+            const stopButton = document.getElementById('swalStopButton');
+
+            if (language == "en-US") {
+                stopButton.innerText = 'Stop Recording English';
+            } else if (language == "fr-FR") {
+                stopButton.innerText = 'Stop Recording French';
+            } else if (language == "rw-RW") {
+                stopButton.innerText = 'Stop Recording Kinyarwanda';
+            }
+
+            // Remove the highlight from the previously selected button
+            if (selectedLanguageButton) {
+                selectedLanguageButton.classList.remove('selected');
+            }
+
+            // Highlight the current selected button
+            const buttonId = language.substring(0, 2) + 'Button';
+            selectedLanguageButton = document.getElementById(buttonId);
+            selectedLanguageButton.classList.add('selected');
+
+            console.log('Language set to ' + language);
+        }
+
+        recognition.onresult = (event) => {
+            transcribedText += event.results[0][0].transcript;
+        };
+
+        recognition.onend = () => {
+            console.log('Recording ended');
+            document.getElementById('swalRecordButton').style.display = 'block';
+            document.getElementById('swalStopButton').style.display = 'none';
+            document.getElementById('swalTranscriptionTextarea').value = transcribedText;
+
+            const textf = transcribedText.replace(/\s/g, '');
+            let count = textf.length;
+
+            if (count > 5000) {
+                let clippedText = transcribedText.substring(0, 200);
+                document.getElementById('swalTranscriptionTextarea').value = clippedText;
+
+                if (infomoer === 0) {
+                    infomoer = 1;
+                    Swal.fire({
+                        title: 'Text Limit',
+                        text: 'The text should not exceed 200 characters.',
+                        icon: 'warning',
+                        allowOutsideClick: false,
+                        onClose: function () {
+                            infomoer = 0;
+                        }
+                    });
+                }
+            }
+        };
+
+        function showSpeechToTextModal() {
+            Swal.fire({
+                title: 'Speech-to-Text',
+                html: `
+                    <button id="enButton" onclick="setLanguage('en-US')">English</button>
+                    <button id="frButton" onclick="setLanguage('fr-FR')">French</button>
+                    <button id="rwButton" onclick="setLanguage('rw-RW')">Kinyarwanda</button>
+                    <br><br>
+                    <button id="swalRecordButton">Start Recording</button>
+                    <button id="swalStopButton" style="display:none;">Stop Recording</button>
+                    <br><br>
+                    <textarea id="swalTranscriptionTextarea" rows="10" cols="50" placeholder="Your transcribed text will appear here..."></textarea>
+                    <br><br>
+                    <button onclick="clearTranscription()">Clear Text</button>
+                `,
+                didOpen: () => {
+                    document.getElementById('swalRecordButton').addEventListener('click', () => {
+                        recognition.start();
+                        document.getElementById('swalRecordButton').style.display = 'none';
+                        document.getElementById('swalStopButton').style.display = 'block';
+                    });
+
+                    document.getElementById('swalStopButton').addEventListener('click', () => {
+                        recognition.stop();
+                    });
+                },
+                showCloseButton: true,
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+        }
+
+        function clearTranscription() {
+            transcribedText = '';
+            document.getElementById('swalTranscriptionTextarea').value = '';
         }
     </script>
 </body>
