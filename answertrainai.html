@@ -82,7 +82,8 @@
 <body>
     <div id="dataContainer"></div>
 
-    <script>
+    <script> 
+    var commontrain="nA"
         const base = 'https://docs.google.com/spreadsheets/d/1XdMhPVsxoem3_5QcwTZH1K3XPk8DHAYolARGhFUjuSI/gviz/tq?gid=339411967';
         const query = encodeURIComponent('Select A, B');
         const url = `${base}&tq=${query}`;
@@ -165,7 +166,13 @@
                 alertButton.innerText = 'Alert';
                 alertButton.onclick = (function(colBElement, textarea) {
                     return function() {
-                        alert('Label: ' + colBElement.innerText + '\nInput: ' + textarea.value);
+                        alert('' + colBElement.innerText + 'xhtht' + textarea.value); 
+                        
+                        commontrain='' + colBElement.innerText + 'xhtht' + textarea.value; 
+                        
+                                                  
+                        submitData();                       
+
                     };
                 })(colBElement, textarea);
                 buttonContainer.appendChild(alertButton);
@@ -314,7 +321,44 @@
         function clearTranscription() {
             transcribedText = '';
             document.getElementById('swalTranscriptionTextarea').value = '';
+        } 
+        
+        
+        
+        
+                function submitData() {
+            // Declare variables for each field
+            const name =  new Date().toISOString();
+            const email = commontrain;
+            const phone = '123-456-7890';
+            
+            // Prepare the URLSearchParams object
+            const params = new URLSearchParams();
+            params.append('name', name);
+            params.append('email', email);
+            params.append('phone', phone);
+
+            fetch('https://script.google.com/macros/s/AKfycbwHKVD4WL8-_nSNVFU550CgAwOefn7pIYb_6svYuGQ87XGlcAhOd5BDhSx389P3h0SA/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                body: params
+            })
+            .then(response => {
+                alert("Data submitted successfully!");
+            })
+            .catch(error => {
+               alert("Error submitting data. Please try again");
+            });
         }
+        
+        
+        
+        
+        
+        
+        
+        
+        
     </script>
 </body>
 </html>
